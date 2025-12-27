@@ -6,10 +6,9 @@
 
 // ignore_for_file: public_member_api_docs, implementation_imports, depend_on_referenced_packages
 
+import 'package:isar_chateapp/Services/Authentication.dart';
 import 'package:isar_chateapp/Services/Isar_services/Isar_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
-
-import '../Services/Authentication.dart';
 
 final locator = StackedLocator.instance;
 

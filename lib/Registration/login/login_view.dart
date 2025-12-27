@@ -7,7 +7,7 @@ import 'login_view_model.dart';
 class LoginPage extends StatelessWidget {
   final void Function()? ontap;
 
-  LoginPage({super.key, required this.ontap});
+  const LoginPage({super.key, required this.ontap});
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
                       size: 60,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     Text(
                       'Welcome back you`ve been missed!',
                       style: TextStyle(
@@ -33,23 +33,23 @@ class LoginPage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     MyTextFeilds(
                       hinttext: 'Email',
                       obsecurtext: false,
                       controller: viewModel.Emailcontroller,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     MyTextFeilds(
                       hinttext: 'Password',
                       obsecurtext: false,
                       controller: viewModel.passwordcontroller,
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     MyButton(
                         text: 'Login',
                         ontap: () => viewModel.Login(context)),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

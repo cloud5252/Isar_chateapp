@@ -36,7 +36,7 @@ class RegisterViewModel extends BaseViewModel {
       showDialog(
         context: context,
         builder: (context) =>
-            AlertDialog(title: Text('Password do not Match!')),
+            const AlertDialog(title: Text('Password do not Match!')),
       );
     }
   }

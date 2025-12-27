@@ -1,7 +1,6 @@
+import 'package:isar_chateapp/Services/Authentication.dart';
+import 'package:isar_chateapp/Services/Isar_services/Isar_service.dart';
 import 'package:stacked/stacked_annotations.dart';
-
-import '../Services/Authentication.dart';
-import '../Services/Isar_services/Isar_service.dart';
 
 @StackedApp(
   routes: [

@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:isar_chateapp/App/locator.locator.dart';
 
-import '../models/expances.dart';
+import '../models/UserModel.dart';
 import 'Isar_services/Isar_service.dart';
 
 class Authentication {
-  final isarAuth = locator<IsarService>();
   final currentUsers = FirebaseAuth.instance.currentUser?.email;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -49,17 +47,17 @@ class Authentication {
         ..email = email
         ..timestamp = DateTime.now();
 
-      await isarAuth.addUser(context, user);
+      await IsarService.addUser(context, user);
 
-      await firestore
-          .collection('Users')
-          .doc(userCredential.user!.uid)
-          .set({
-        'uid': userCredential.user!.uid,
-        'email': email,
-        'username': name,
-        'AddedUser': false,
-      });
+      // await firestore
+      //     .collection('Users')
+      //     .doc(userCredential.user!.uid)
+      //     .set({
+      //   'uid': userCredential.user!.uid,
+      //   'email': email,
+      //   'username': name,
+      //   'AddedUser': false,
+      // });
 
       return userCredential;
     } catch (e) {

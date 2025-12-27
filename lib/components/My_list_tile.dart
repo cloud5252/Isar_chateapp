@@ -47,7 +47,7 @@ class MyListTile extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
           onTap: ontap,
-          tileColor: Colors.grey.shade400,
+          tileColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),

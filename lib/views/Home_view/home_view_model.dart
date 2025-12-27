@@ -1,14 +1,13 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:isar_chateapp/App/locator.locator.dart';
+import 'package:isar_chateapp/Services/Isar_services/Isar_service.dart';
+import 'package:isar_chateapp/models/UserModel.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../Services/Isar_services/Isar_service.dart';
-import '../../models/expances.dart';
-
 class HomeViewModel extends BaseViewModel {
-  final auth = locator<IsarService>();
   final TextEditingController nameController =
       TextEditingController();
   final TextEditingController emailController =
@@ -17,12 +16,21 @@ class HomeViewModel extends BaseViewModel {
   bool isLoading = true;
   StreamSubscription<List<UserModel>>? _userSubscription;
 
-  void listenToUsers() {
+  // HomeViewModel.dart mein
+  void listenToUsers(String? myUid) {
+    final String activeUid =
+        myUid ?? FirebaseAuth.instance.currentUser?.uid ?? "";
+
+    if (activeUid.isEmpty) return;
+
     isLoading = true;
     notifyListeners();
 
-    _userSubscription = IsarService.watchUsers().listen((userList) {
-      users = userList;
+    _userSubscription?.cancel();
+    _userSubscription =
+        IsarService.watchAllUsers(activeUid).listen((userList) {
+      users = userList.where((u) => u.uid != activeUid).toList();
+
       isLoading = false;
       notifyListeners();
     });
@@ -49,7 +57,7 @@ class HomeViewModel extends BaseViewModel {
                 controller: nameController,
                 decoration: InputDecoration(
                   hintText: existingName,
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 10),
@@ -57,7 +65,7 @@ class HomeViewModel extends BaseViewModel {
                 controller: emailController,
                 decoration: InputDecoration(
                   hintText: existingAmount,
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
               ),
@@ -124,7 +132,7 @@ class HomeViewModel extends BaseViewModel {
             },
             child: const Text('Cancel'),
           ),
-          auth.deleteExpancesButton(context, data.id),
+          locator<IsarService>().deleteExpancesButton(context, data.id),
         ],
       ),
     );

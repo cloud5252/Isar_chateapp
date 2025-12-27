@@ -1,45 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:isar_chateapp/models/UserModel.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../models/expances.dart';
+Isar? _globalIsar;
 
 class IsarService {
-  static late Isar isar;
+  static final IsarService _instance = IsarService._internal();
+  factory IsarService() => _instance;
+  IsarService._internal();
+
+  // static Isar? _isar;
+
+  static Isar get isar {
+    if (_globalIsar == null) {
+      print("❌ ERROR: Isar instance dastiab nahi hai!");
+      throw Exception("Isar not initialized");
+    }
+    return _globalIsar!;
+  }
 
   static Future<void> init() async {
-    final dir = await getApplicationDocumentsDirectory();
+    if (_globalIsar != null && _globalIsar!.isOpen) return;
 
-    isar = await Isar.open(
-      [
-        UserModelSchema,
-        MessagesSchema,
-      ],
+    final dir = await getApplicationDocumentsDirectory();
+    _globalIsar = await Isar.open(
+      [UserModelSchema, ChatRoomSchema, ChatMessageSchema],
       directory: dir.path,
     );
+    print("🔥 Isar Engine Started and Assigned!");
   }
+  // ==================== USER OPERATIONS ====================
 
   static Future<List<UserModel>> getUser() async {
     return await isar.userModels.where().findAll();
   }
 
-  static Stream<List<UserModel>> watchUsers() {
-    return isar.userModels.where().watch(fireImmediately: true);
+// Isar Service mein
+// IsarService.dart
+  static Stream<List<UserModel>> watchAllUsers(String currentUserId) {
+    return isar.userModels
+        .where()
+        .filter()
+        .not()
+        .uidEqualTo(currentUserId, caseSensitive: true)
+        .watch(fireImmediately: true);
   }
 
-  Future<bool> deleteUser(int id) async {
+  static Future<bool> deleteUser(int id) async {
     return await isar.writeTxn(() async {
       return await isar.userModels.delete(id);
     });
   }
 
-  Future<void> updateUser(UserModel user) async {
+  static Future<void> updateUser(UserModel user) async {
     await isar.writeTxn(() async {
       await isar.userModels.put(user);
     });
   }
 
-  Future<void> addUser(context, UserModel user) async {
+  static Future<void> addUser(
+      BuildContext context, UserModel user) async {
     await isar.writeTxn(() async {
       await isar.userModels.put(user);
     });
@@ -49,7 +70,9 @@ class IsarService {
     return MaterialButton(
       onPressed: () async {
         await deleteUser(id);
-        Navigator.pop(context);
+        if (context.mounted) {
+          Navigator.pop(context);
+        }
       },
       child: const Text('Delete'),
     );

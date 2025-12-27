@@ -7,7 +7,7 @@ import 'register_view_model.dart';
 class RegisterPage extends StatelessWidget {
   final void Function()? ontap;
 
-  RegisterPage({super.key, required this.ontap});
+  const RegisterPage({super.key, required this.ontap});
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<RegisterViewModel>.reactive(
@@ -25,7 +25,7 @@ class RegisterPage extends StatelessWidget {
                       size: 60,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     Text(
                       'Lets`s create account for you',
                       style: TextStyle(
@@ -33,39 +33,39 @@ class RegisterPage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     MyTextFeilds(
                       hinttext: 'Name',
                       obsecurtext: false,
                       controller: viewmodel.userNamecontroller,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     MyTextFeilds(
                       hinttext: 'Email',
                       obsecurtext: false,
                       controller: viewmodel.Emailcontroller,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     MyTextFeilds(
                       hinttext: 'Password',
                       obsecurtext: false,
                       controller: viewmodel.passwordcontroller,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     MyTextFeilds(
                       hinttext: 'Confirm password',
                       obsecurtext: false,
                       controller:
                           viewmodel.conformedpasswordcontroller,
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     MyButton(
                       text: 'Register',
                       ontap: () => viewmodel.register(
                         context,
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
